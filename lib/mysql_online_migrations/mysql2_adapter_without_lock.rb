@@ -15,11 +15,11 @@ module ActiveRecord
       end
 
       alias_method :original_execute, :execute
-      def execute(sql, name = nil)
+      def execute(sql, name = nil, async: false)
         if sql =~ OPTIMIZABLE_DDL_REGEX
           sql = "#{sql} #{lock_none_statement(sql)}"
         end
-        original_execute(sql, name)
+        original_execute(sql, name, async: async)
       end
 
       def lock_none_statement(sql)
